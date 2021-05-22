@@ -27,5 +27,36 @@
   5. 리눅스와 같은 거대한 프로젝트도 속도저하의 문제 없이 관리할 수 있는 시스템
 
 - ### git과 GitHub은 어떻게 다를까요?
+
   git : 소프트웨어의 변경사항을 추적하고 통제하기 위한 `분산 버전 관리 시스템`
   github : 분산 버전 관리 시스템인 git을 사용하는 프로젝트를 지원하는 `웹호스팅 서비스`
+
+- ### git의 clone/add/commit/push/pull/branch/stash 명령은 무엇이며 어떨 때 이용하나요? 그리고 어떻게 사용하나요?
+  - `git clone`
+    원격에 존재하는 repository의 local copy를 생성
+    프로젝트의 파일, 히스토리, 브랜치를 모두 포함
+  사용 방법 :
+  - `git add`
+    변경 사항을 statge.
+    git은 개발자의 codebase에 대한 `변경 사항을 추적`하는데, 이 변경 사항을 프로젝트의 히스토리에 포함시키기 위해서는 변경 사항을 `stage`하고 해당 변경 사항에 대한 `snapshot`을 생성해야 함.
+    사용 방법 :
+
+  - `git commit`
+    snapshot을 프로젝트 히스토리에 추가하고,변경사항 추적 프로세스를 마침.
+    git add로 stage된 모든 것들이 snapshot에 포함됨
+    사용 방법 :
+
+  - `git push`
+    branch 에 반영된 local commit들을 원격 repository에 업데이트
+    사용 방법 :
+
+  - `git pull`
+    local 개발 내역들을 remote 개발 내역으로 업데이트.
+    팀 구성원이 remote branch에 commit을 했고, 그 변경 사항들(commit 내용들)을 local invironment에 반영하고 싶을 때 이 명령어를 사용
+    사용 방법 :
+
+  - `git branch`
+    local repository에서 작업한 branch들을 보여줌
+    사용 방법 :
+
+  - `git stash`
