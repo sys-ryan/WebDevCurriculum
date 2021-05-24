@@ -32,31 +32,96 @@
   github : 분산 버전 관리 시스템인 git을 사용하는 프로젝트를 지원하는 `웹호스팅 서비스`
 
 - ### git의 clone/add/commit/push/pull/branch/stash 명령은 무엇이며 어떨 때 이용하나요? 그리고 어떻게 사용하나요?
+
   - `git clone`
     원격에 존재하는 repository의 local copy를 생성
     프로젝트의 파일, 히스토리, 브랜치를 모두 포함
-  사용 방법 :
+    사용 방법 :
+
+  ```
+  git clone <url>
+  ```
+
   - `git add`
     변경 사항을 statge.
     git은 개발자의 codebase에 대한 `변경 사항을 추적`하는데, 이 변경 사항을 프로젝트의 히스토리에 포함시키기 위해서는 변경 사항을 `stage`하고 해당 변경 사항에 대한 `snapshot`을 생성해야 함.
     사용 방법 :
+
+  ```
+  git add <파일 이름>
+  ```
 
   - `git commit`
     snapshot을 프로젝트 히스토리에 추가하고,변경사항 추적 프로세스를 마침.
     git add로 stage된 모든 것들이 snapshot에 포함됨
     사용 방법 :
 
+  ```
+  git commit
+  git commit -m "이번 snapshot에 대한 설명"
+  ```
+
   - `git push`
     branch 에 반영된 local commit들을 원격 repository에 업데이트
     사용 방법 :
 
+  ```
+  git push origin <branch name>
+  ```
+
+  만약 기존에 있던 원격 저장소를 복제한것이 아니라면, 먼저 원격 서버의 주소를 git에게 알려줘야 함
+
+  ```
+  git remote add origin <remote repository address>
+  ```
+
   - `git pull`
     local 개발 내역들을 remote 개발 내역으로 업데이트.
     팀 구성원이 remote branch에 commit을 했고, 그 변경 사항들(commit 내용들)을 local invironment에 반영하고 싶을 때 이 명령어를 사용
+
+          로컬 저장소를 원격 저장소에 맞춰 갱신
+
+    원격 저장소의 변경 내용이 로컬 작업 디렉토리에 받아지고(fetch), 병합(merge) 됨
     사용 방법 :
+
+  ```
+  git pull
+  ```
+
+  다른 branch에 있는 변경 내용을 현재 branch에 병합하려면 다음 명령을 실행
+
+  ```
+  git merge <branch name>
+  ```
+
+  변경 내용을 병합하기 전에, 어떻게 바뀌었는지 비교 가능
+
+  ```
+  git diff <original branch> <counterpart branch>
+  ```
 
   - `git branch`
     local repository에서 작업한 branch들을 보여줌
     사용 방법 :
 
+  ```
+  git branch
+
+  git branch -d <branch name> // delete branch
+  ```
+
   - `git stash`
+    A branch에서 작업을 완료 후 B branch 를 따서 작업 중에, 다시 A branch로 돌아가서 수정할 상황이 생겼을 때, B branch의 현재 상태를 잠시 저장 후 다시 돌아올 수 있도록 함
+    사용 방법 :
+
+  ```
+  git commit
+  git stach
+
+  git stash list
+
+  git stach apply `stash ID`
+  git stash drop `stash ID` // stash list 내역 지우기
+
+  git stash pop // git stash 상태로 돌아가고, LIST에서 바로 삭제하기
+  ```
