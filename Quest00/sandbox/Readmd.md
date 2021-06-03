@@ -125,3 +125,91 @@
 
   git stash pop // git stash 상태로 돌아가고, LIST에서 바로 삭제하기
   ```
+
+- ### git의 Object, Commit, Head, Branch, Tag는 어떤 개념일까요? git 시스템은 프로젝트의 히스토리를 어떻게 저장할까요?
+
+  `git init` 명령어를 실행하면 `.git` 디렉토리가 만들어짐.  
+   다음 네 가지 항목이 주요한 항목
+
+  - `object` 디렉토리: 모든 content를 저장하는 데이터베이스
+  - `ref` 디렉토리: 커밋 개체의 포인터를 저장
+  - `HEAD` 파일: 현재 Checkout한 branch 를 가리킴
+  - `index` 파일: Staging Area의 정보를 저장
+
+  Git은 `init`명령어로 저장소를 초기화 할 때 ojbect 디렉토리를 만들고, 그 밑에 `pack` 과 `info` 디렉토리도 만든다.
+  데이터 저장 시 데이터와 헤더로 생성한 SHA-1 체크섬으로 파일 이름을 지음.
+
+  - 첫 두 글짜 -> 디렉토리 이름
+  - 나머지 38글자 -> 파일 이름
+    <br>
+    <br>
+
+  #### git은 모든 것을 Tree 와 Blob 개체로 저장
+
+  #### Blob 개체
+
+  파일 이름 없이 파일 내용만 저장한 종류의 개체
+  `cat-file -t` 명령으로 해당 개체의 type 확인 가능
+
+  #### Tree 개체
+
+  파일의 이름을 저장
+
+  Tree 개체 하나는 항목을 여러 개 가질 수 있음
+  각 항목은 Blob 개체나 하위 Tree 개체를 가리키는 `SHA-1 포인터, 파일 모드, 개체 타입, 파일 이름`이 들어 있음
+
+  #### Commit 개체
+
+  스냅샷을 누가, 언제, 왜 저장했는지에 대한 정보 저장
+  commit 개체는 해당 스냅샷에서 최상단 Tree 하나를 가리킴
+  또한 author/committer 정보, 시간 정보를 나타냄
+  마지막으로 커밋 메시지를 포함함
+
+  #### Blob 개체
+
+  git은 변경된 파일을 Blob개체로 저장하고 현 Index에 따라서 Tree 개체를 만든다
+  그리고 이전 커밋 개체와 최상위 Tree 개체를 참고해서 Commit 개체를 만든다
+
+  #### branch
+
+  어떤 작업 중 마지막 작업을 가리키는 포인터
+
+  #### HEAD
+
+  현 브랜치를 가리키는 간접(symbolic) Refs
+  //다른 Refs를 가리치는 Refs
+
+  #### Tag
+
+  누가, 언제 태그를 달았는지, 태그 메시지, 어떤 커밋을 가리키는지에 대한 정보 포함
+  Tag는 branch처럼 개체를 가리키지만 옮길 수 는 없음
+
+- ### 리모트 git 저장소에 원하지 않는 파일이 올라갔을 때 이를 되돌리려면 어떻게 해야 할까요?
+
+  1. 워킹 디렉터리에서 commit을 되돌린다.
+
+  - Reflog(branch와 HEAD가 이전에 가리켰었던 커밋) 목록 확인
+
+  ```
+  $ git reflog 또는 $ git log -g
+  ```
+
+  - 원하는 시점으로 워킹 디레겉리를 되돌림
+
+  ```
+  git reset HEAD@{number} 또는 $ git reset [commit id]
+  ```
+
+  2. 워킹 디렉터리가 되돌려진 상태에서 다시 commit
+
+  ```
+  $ git commit -m "commit message"
+  ```
+
+  3. 원격 저장소에 강제로 push
+
+  ```
+  $ git push origin [branch name] -f
+  또는
+  $ git push origin +[branch name]
+  ```
